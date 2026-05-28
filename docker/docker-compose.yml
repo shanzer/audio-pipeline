@@ -32,18 +32,17 @@ services:
       POSTGRES_HOST: "127.0.0.1"  # host networking: postgres is exposed on host port 5432
       PIPELINE_DATA_DIR: /data
       # Uncomment to enable iCloud inbox watching (also uncomment the volume below):
-      # ICLOUD_INBOX: /inbox/icloud
+      ICLOUD_INBOX: /inbox/icloud
     volumes:
       - type: bind
         source: ${HOME}/data/audio-pipeline
         target: /data
       # iCloud inbox — uncomment both this block and ICLOUD_INBOX above.
-      # Set ICLOUD_RECORDINGS_PATH in your shell or .env to your iCloud folder.
-      # Example: export ICLOUD_RECORDINGS_PATH="$HOME/Library/Mobile Documents/com~apple~CloudDocs/Recordings"
-      # - type: bind
-      #   source: "${ICLOUD_RECORDINGS_PATH}"
-      #   target: /inbox/icloud
-      #   read_only: true
+      # Set ICLOUD_RECORDINGS_PATH in docker/.env (auto-loaded by compose).
+      - type: bind
+        source: "${ICLOUD_RECORDINGS_PATH}"
+        target: /inbox/icloud
+        read_only: true
 
   webui:
     build:
