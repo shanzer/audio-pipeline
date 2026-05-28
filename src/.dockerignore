@@ -4,6 +4,5 @@ __pycache__/
 .DS_Store
 config/.env
 config/.env~
-db/
 pipeline.log
 tests/
