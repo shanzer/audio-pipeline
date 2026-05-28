@@ -10,17 +10,54 @@ services:
       - ./init:/docker-entrypoint-initdb.d
     ports:
       - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-pipeline} -d ${POSTGRES_DB:-audio_pipeline}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  pipeline:
+    build:
+      context: ../src
+    image: audio-pipeline-pipeline:latest
+    container_name: audio-pipeline-pipeline
+    restart: unless-stopped
+    network_mode: host          # shares host Tailscale interface → can reach yoyodyne
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - ../src/config/.env
+    environment:
+      POSTGRES_HOST: "127.0.0.1"  # host networking: postgres is exposed on host port 5432
+      PIPELINE_DATA_DIR: /data
+      # Uncomment to enable iCloud inbox watching (also uncomment the volume below):
+      # ICLOUD_INBOX: /inbox/icloud
+    volumes:
+      - type: bind
+        source: ${HOME}/data/audio-pipeline
+        target: /data
+      # iCloud inbox — uncomment both this block and ICLOUD_INBOX above.
+      # Set ICLOUD_RECORDINGS_PATH in your shell or .env to your iCloud folder.
+      # Example: export ICLOUD_RECORDINGS_PATH="$HOME/Library/Mobile Documents/com~apple~CloudDocs/Recordings"
+      # - type: bind
+      #   source: "${ICLOUD_RECORDINGS_PATH}"
+      #   target: /inbox/icloud
+      #   read_only: true
 
   webui:
-    image: audio-pipeline-webui:latest
     build:
       context: ../webui
+    image: audio-pipeline-webui:latest
     container_name: audio-pipeline-webui
     restart: unless-stopped
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     env_file:
       - ../src/config/.env
+    environment:
+      POSTGRES_HOST: postgres    # bridge network: resolves to the postgres container
     ports:
       - "127.0.0.1:8080:8080"
 
