@@ -24,7 +24,7 @@ load_dotenv(_env_path, override=True)
 from config.settings import (
     RECORDINGS_ARCHIVE,
     RECORDINGS_FAILED,
-    RECORDINGS_INBOX,
+    RECORDINGS_INBOXES,
     LOG_PATH,
     DEFAULT_MIN_SPEAKERS,
     DEFAULT_MAX_SPEAKERS,
@@ -186,7 +186,7 @@ def main() -> None:
 
     init_db()
 
-    observer = start_watcher()
+    observer = start_watcher(RECORDINGS_INBOXES)
 
     worker_thread = threading.Thread(target=worker_loop, daemon=True, name="worker")
     worker_thread.start()

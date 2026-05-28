@@ -35,6 +35,17 @@ RECORDINGS_FAILED  = os.path.join(_DATA_DIR, "failed")
 SQLITE_DB_PATH     = os.path.join(_DATA_DIR, "db", "jobs.db")
 LOG_PATH           = os.path.join(_DATA_DIR, "logs", "pipeline.log")
 
+
+def _build_inboxes(local: str, icloud_env: str) -> list[str]:
+    """Return list of inbox paths; icloud_env is included only when non-empty."""
+    return [local] + ([icloud_env] if icloud_env.strip() else [])
+
+
+RECORDINGS_INBOXES = _build_inboxes(
+    RECORDINGS_INBOX,
+    os.getenv("ICLOUD_INBOX", "").strip(),
+)
+
 # ── Remote services ───────────────────────────────────────────────────────────
 # WhisperX service (Mac Mini) — set WHISPER_SERVICE_URL for SSH tunnels
 WHISPER_SERVICE_URL = _base_url(

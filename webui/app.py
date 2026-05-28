@@ -2,15 +2,21 @@
 import json
 import os
 import re
+import time
 from datetime import datetime, timezone
+from pathlib import Path
 
 import psycopg2
 import psycopg2.extras
-from flask import Flask, Response, abort, flash, redirect, render_template, request, url_for
+from flask import Flask, Response, abort, flash, jsonify, redirect, render_template, request, url_for
+from werkzeug.utils import secure_filename
 
 
 app = Flask(__name__)
 app.secret_key = os.getenv("WEBUI_SECRET_KEY", "local-audio-pipeline-webui")
+app.config["MAX_CONTENT_LENGTH"] = 500 * 1024 * 1024  # 500 MB
+
+ALLOWED_EXTENSIONS = {".m4a", ".mp4", ".wav", ".mp3", ".aac"}
 
 
 def db_connect():
@@ -288,6 +294,30 @@ def download(recording_id, kind):
         content_type=content_type,
         headers={"Content-Disposition": f'attachment; filename="{filename}"'},
     )
+
+
+@app.post("/upload")
+def upload():
+    if "file" not in request.files:
+        return jsonify({"ok": False, "error": "no file field in request"}), 400
+
+    f = request.files["file"]
+    if not f.filename:
+        return jsonify({"ok": False, "error": "empty filename"}), 400
+
+    ext = Path(f.filename).suffix.lower()
+    if ext not in ALLOWED_EXTENSIONS:
+        return jsonify({"ok": False, "error": f"unsupported file type: {ext}"}), 400
+
+    safe_name = secure_filename(f.filename)
+    ts = int(time.time())
+    filename = f"iphone_{ts}_{safe_name}"
+
+    inbox = Path(os.getenv("RECORDINGS_INBOX", os.path.expanduser("~/Recordings/inbox")))
+    inbox.mkdir(parents=True, exist_ok=True)
+    f.save(str(inbox / filename))
+
+    return jsonify({"ok": True, "filename": filename})
 
 
 @app.context_processor

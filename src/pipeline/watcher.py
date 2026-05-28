@@ -15,13 +15,24 @@ AUDIO_EXTENSIONS = {".m4a", ".mp4", ".wav", ".mp3", ".aac"}
 
 
 class InboxHandler(FileSystemEventHandler):
+    def __init__(self, watched_dirs: set[Path]):
+        self._watched = watched_dirs
+        super().__init__()
+
+    def _is_evicted(self, p: Path) -> bool:
+        """Return True if the file is an iCloud stub (0-byte placeholder)."""
+        try:
+            return p.stat().st_size == 0
+        except OSError:
+            return True
+
     def _handle(self, path: str) -> None:
         p = Path(path)
         if p.suffix.lower() not in AUDIO_EXTENSIONS:
             return
-        # Wait briefly to allow file write to complete
         time.sleep(2)
-        if not p.exists():
+        if not p.exists() or self._is_evicted(p):
+            log.warning("Skipping evicted/missing file: %s", p.name)
             return
         source = detect_source(str(p))
         queued = enqueue(str(p), source=source)
@@ -37,15 +48,19 @@ class InboxHandler(FileSystemEventHandler):
     def on_moved(self, event: FileMovedEvent) -> None:
         if not event.is_directory:
             dest = Path(event.dest_path)
-            if dest.parent == Path(RECORDINGS_INBOX):
+            if dest.parent.resolve() in self._watched:
                 self._handle(event.dest_path)
 
 
-def start_watcher() -> Observer:
-    """Start watchdog observer on inbox directory. Returns the Observer."""
-    Path(RECORDINGS_INBOX).mkdir(parents=True, exist_ok=True)
+def start_watcher(inbox_paths: list[str] | None = None) -> Observer:
+    """Start watchdog observer on one or more inbox directories."""
+    paths = inbox_paths or [RECORDINGS_INBOX]
+    watched = {Path(p).resolve() for p in paths}
+    handler = InboxHandler(watched_dirs=watched)
     observer = Observer()
-    observer.schedule(InboxHandler(), RECORDINGS_INBOX, recursive=False)
+    for p in paths:
+        Path(p).mkdir(parents=True, exist_ok=True)
+        observer.schedule(handler, str(p), recursive=False)
+        log.info("Watcher started on %s", p)
     observer.start()
-    log.info("Watcher started on %s", RECORDINGS_INBOX)
     return observer
