@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: audio-pipeline-db
+    restart: unless-stopped
+    env_file:
+      - ../src/config/.env
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+
+  webui:
+    image: audio-pipeline-webui:latest
+    build:
+      context: ../webui
+    container_name: audio-pipeline-webui
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    env_file:
+      - ../src/config/.env
+    ports:
+      - "127.0.0.1:8080:8080"
+
+volumes:
+  pgdata:

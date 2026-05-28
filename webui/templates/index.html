@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Recordings - Audio Pipeline{% endblock %}
+
+{% block content %}
+<section class="page-head">
+  <div>
+    <p class="eyebrow">Database</p>
+    <h1>Recordings</h1>
+  </div>
+  <div class="stats">
+    <div>
+      <strong>{{ totals.recordings }}</strong>
+      <span>recordings</span>
+    </div>
+    <div>
+      <strong>{{ "%.1f"|format(totals.hours) }}</strong>
+      <span>hours</span>
+    </div>
+    <div>
+      <strong>{{ totals.segments }}</strong>
+      <span>segments</span>
+    </div>
+  </div>
+</section>
+
+<section class="table-shell">
+  {% if recordings %}
+    <table class="recordings-table">
+      <thead>
+        <tr>
+          <th>Recording</th>
+          <th>Summary</th>
+          <th>Source</th>
+          <th>Recorded</th>
+          <th>Length</th>
+          <th>Status</th>
+          <th class="numeric">Segments</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for recording in recordings %}
+          <tr>
+            <td class="primary-cell">
+              <a href="{{ url_for('recording_detail', recording_id=recording.id) }}">{{ recording.filename }}</a>
+              <span>{{ recording.speaker_count or 0 }} speakers</span>
+            </td>
+            <td>{{ recording.summary_title or "No summary" }}</td>
+            <td><span class="source">{{ recording.source }}</span></td>
+            <td>{{ recording.recorded_at|datetime }}</td>
+            <td>{{ recording.duration_sec|duration }}</td>
+            <td><span class="status status-{{ recording.status }}">{{ recording.status }}</span></td>
+            <td class="numeric">{{ recording.segment_count }}</td>
+            <td class="actions-cell">
+              <a class="button compact" href="{{ url_for('recording_detail', recording_id=recording.id) }}">Open</a>
+              <form method="post" action="{{ url_for('delete_recording', recording_id=recording.id) }}" onsubmit="return confirm('Delete this recording and all related summaries, transcript segments, chunks, and speakers?');">
+                <button class="button compact danger" type="submit">Delete</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <div class="empty-state">
+      <h2>No recordings yet</h2>
+      <p>Processed recordings will appear here after `scripts/process_recording.py` writes them to Postgres.</p>
+    </div>
+  {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% block title %}{{ recording.filename }} - Audio Pipeline{% endblock %}
+
+{% block content %}
+<section class="detail-head">
+  <div>
+    <p class="eyebrow">{{ recording.source }} / {{ recording.status }}</p>
+    <h1>{{ recording.filename }}</h1>
+    <div class="meta-line">
+      <span>{{ recording.recorded_at|datetime }}</span>
+      <span>{{ recording.duration_sec|duration }}</span>
+      <span>{{ recording.speaker_count or speakers|length }} speakers</span>
+      <span>{{ segments|length }} segments</span>
+    </div>
+  </div>
+  <div class="detail-actions">
+    <a class="button" href="{{ url_for('download', recording_id=recording.id, kind='summary') }}">Summary MD</a>
+    <a class="button" href="{{ url_for('download', recording_id=recording.id, kind='summary-json') }}">Summary JSON</a>
+    <a class="button" href="{{ url_for('download', recording_id=recording.id, kind='transcript') }}">Transcript TXT</a>
+    <form method="post" action="{{ url_for('delete_recording', recording_id=recording.id) }}" onsubmit="return confirm('Delete this recording and all related summaries, transcript segments, chunks, and speakers?');">
+      <button class="button danger" type="submit">Delete</button>
+    </form>
+  </div>
+</section>
+
+<section class="detail-grid">
+  <aside class="side-panel">
+    <h2>Recording</h2>
+    <dl>
+      <dt>ID</dt>
+      <dd class="mono">{{ recording.id }}</dd>
+      <dt>File path</dt>
+      <dd>{{ recording.file_path }}</dd>
+      <dt>Processed</dt>
+      <dd>{{ recording.processed_at|datetime }}</dd>
+      {% if recording.error %}
+        <dt>Error</dt>
+        <dd class="error-text">{{ recording.error }}</dd>
+      {% endif %}
+    </dl>
+
+    <h2>Speakers</h2>
+    {% if speakers %}
+      <ul class="speaker-list">
+        {% for speaker in speakers %}
+          <li>
+            <strong>{{ speaker.resolved_name or speaker.diarization_label }}</strong>
+            <span>{{ speaker.diarization_label }}{% if speaker.channel is not none %} / Ch{{ speaker.channel }}{% endif %}</span>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="muted">No speaker rows stored.</p>
+    {% endif %}
+  </aside>
+
+  <div class="content-stack">
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Summary</h2>
+        {% if summary %}
+          <span>{{ summary.created_at|datetime }}</span>
+        {% endif %}
+      </div>
+      {% if summary %}
+        <h3>{{ summary.title or recording.filename }}</h3>
+        <div class="summary-grid">
+          {% for label, values in summary_sections(summary) %}
+            <section>
+              <h4>{{ label }}</h4>
+              {% if values %}
+                <ul>
+                  {% for item in values %}
+                    <li>{{ item }}</li>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                <p class="muted">None recorded.</p>
+              {% endif %}
+            </section>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="muted">No summary row stored for this recording.</p>
+      {% endif %}
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Transcript</h2>
+        <span>{{ segments|length }} segments</span>
+      </div>
+      {% if segments %}
+        <div class="transcript">
+          {% for segment in segments %}
+            <article class="segment">
+              <time>{{ segment.start_time|timestamp }} - {{ segment.end_time|timestamp }}</time>
+              <div>
+                <strong>{{ segment.speaker_label or "Unknown" }}</strong>
+                <p>{{ segment.text }}</p>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="muted">No transcript segments stored.</p>
+      {% endif %}
+    </section>
+  </div>
+</section>
+{% endblock %}

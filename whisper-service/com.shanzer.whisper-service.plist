@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.shanzer.whisper-service</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/buckaroo/venvs/whisper-pipeline/bin/python</string>
+        <string>/Users/buckaroo/whisper-service/main.py</string>
+    </array>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+        <key>HF_TOKEN</key>
+        <string>REPLACE_WITH_YOUR_HF_TOKEN</string>
+        <key>WHISPER_DEVICE</key>
+        <string>cpu</string>
+        <key>WHISPER_COMPUTE_TYPE</key>
+        <string>int8</string>
+        <key>WHISPER_BATCH_SIZE</key>
+        <string>8</string>
+        <key>WHISPER_SERVICE_PORT</key>
+        <string>8765</string>
+    </dict>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>/Users/buckaroo/whisper-service/service.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/buckaroo/whisper-service/service.log</string>
+    <key>WorkingDirectory</key>
+    <string>/Users/buckaroo/whisper-service</string>
+    <key>ProcessType</key>
+    <string>Background</string>
+    <key>Nice</key>
+    <integer>10</integer>
+</dict>
+</plist>

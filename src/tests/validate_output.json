@@ -1,0 +1,994 @@
+{
+  "segments": [
+    {
+      "start": 0.031,
+      "end": 23.338,
+      "text": " hello welcome to the meeting today we will discuss the quarterly revenue results and the action items for next quarter thank you alex i reviewed the numbers last night revenue is up 15 year over year we need to decide on the marketing budget and assign owners before end of week great point i suggest we allocate twenty thousand dollars to digital ads john should own the social media campaign",
+      "words": [
+        {
+          "word": "hello",
+          "start": 0.031,
+          "end": 0.412,
+          "score": 0.689,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "welcome",
+          "start": 0.452,
+          "end": 1.134,
+          "score": 0.712,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "to",
+          "start": 1.174,
+          "end": 1.255,
+          "score": 0.782,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "the",
+          "start": 1.315,
+          "end": 1.375,
+          "score": 0.999,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "meeting",
+          "start": 1.415,
+          "end": 1.716,
+          "score": 0.856,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "today",
+          "start": 2.057,
+          "end": 2.338,
+          "score": 0.76,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "we",
+          "start": 2.398,
+          "end": 2.478,
+          "score": 0.991,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "will",
+          "start": 2.518,
+          "end": 2.659,
+          "score": 0.964,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "discuss",
+          "start": 2.699,
+          "end": 3.08,
+          "score": 0.94,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "the",
+          "start": 3.14,
+          "end": 3.22,
+          "score": 0.988,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "quarterly",
+          "start": 3.3,
+          "end": 3.742,
+          "score": 0.913,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "revenue",
+          "start": 3.802,
+          "end": 4.123,
+          "score": 0.885,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "results",
+          "start": 4.183,
+          "end": 4.524,
+          "score": 0.886,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "and",
+          "start": 4.584,
+          "end": 4.644,
+          "score": 0.928,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "the",
+          "start": 4.684,
+          "end": 4.765,
+          "score": 0.831,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "action",
+          "start": 4.885,
+          "end": 5.146,
+          "score": 0.914,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "items",
+          "start": 5.246,
+          "end": 5.507,
+          "score": 0.964,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "for",
+          "start": 5.547,
+          "end": 5.667,
+          "score": 0.889,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "next",
+          "start": 5.727,
+          "end": 5.968,
+          "score": 0.848,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "quarter",
+          "start": 6.068,
+          "end": 6.389,
+          "score": 0.918,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "thank",
+          "start": 6.55,
+          "end": 6.77,
+          "score": 0.975,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "you",
+          "start": 6.811,
+          "end": 6.931,
+          "score": 0.912,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "alex",
+          "start": 7.071,
+          "end": 7.392,
+          "score": 0.836,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "i",
+          "start": 7.773,
+          "end": 7.854,
+          "score": 0.889,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "reviewed",
+          "start": 7.894,
+          "end": 8.215,
+          "score": 0.789,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "the",
+          "start": 8.255,
+          "end": 8.315,
+          "score": 0.997,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "numbers",
+          "start": 8.375,
+          "end": 8.696,
+          "score": 0.874,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "last",
+          "start": 8.756,
+          "end": 8.977,
+          "score": 0.949,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "night",
+          "start": 9.057,
+          "end": 9.298,
+          "score": 0.705,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "revenue",
+          "start": 9.639,
+          "end": 9.98,
+          "score": 0.84,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "is",
+          "start": 10.04,
+          "end": 10.1,
+          "score": 0.637,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "up",
+          "start": 10.2,
+          "end": 10.28,
+          "score": 0.864,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "15",
+          "start": 10.341,
+          "end": 10.722,
+          "score": 0.781,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "year",
+          "start": 11.263,
+          "end": 11.464,
+          "score": 0.865,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "over",
+          "start": 11.544,
+          "end": 11.725,
+          "score": 0.551,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "year",
+          "start": 11.805,
+          "end": 12.026,
+          "score": 0.815,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "we",
+          "start": 12.326,
+          "end": 12.447,
+          "score": 0.79,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "need",
+          "start": 12.487,
+          "end": 12.667,
+          "score": 0.761,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "to",
+          "start": 12.707,
+          "end": 12.788,
+          "score": 0.756,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "decide",
+          "start": 12.848,
+          "end": 13.229,
+          "score": 0.94,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "on",
+          "start": 13.309,
+          "end": 13.369,
+          "score": 0.989,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "the",
+          "start": 13.389,
+          "end": 13.47,
+          "score": 0.832,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "marketing",
+          "start": 13.53,
+          "end": 13.971,
+          "score": 0.905,
+          "speaker": "SPEAKER_00"
+        },
+        {
+          "word": "budget",
+          "start": 14.011,
+          "end": 14.332,
+          "score": 0.768,
+          "speaker": "SPEAKER_01"
+        },
+        {
+          "word": "and",
+          "start": 14.392,
+          "end": 14.473,
+          "score": 0.851,
+          "speaker": "SPEAKER_01"
+        },
+        {
+          "word": "assign",
+          "start": 14.533,
+          "end": 14.854,
+          "score": 0.778,
+          "speaker": "SPEAKER_01"
+        },
+        {
+          "word": "owners",
+          "start": 14.934,
+          "end": 15.195,
+          "score": 0.869,
+          "speaker": "SPEAKER_01"
+        },
+        {
+          "word": "before",
+          "start": 15.275,
+          "end": 15.676,
+          "score": 0.868,
+          "speaker": "SPEAKER_01"
+        },
+        {
+          "word": "end",
+          "start": 15.696,
+          "end": 15.796,
+          "score": 0.826,
+          "speaker": "SPEAKER_01"
+        },
+        {
+          "word": "of",
+          "start": 15.836,
+          "end": 15.897,
+          "score": 0.964,
+          "speaker": "SPEAKER_01"
+        },
+        {
+          "word": "week",
+          "start": 15.957,
+          "end": 16.198,
+          "score": 0.901,
+          "speaker": "SPEAKER_01"
+        },
+        {
+          "word": "great",
+          "start": 16.358,
+          "end": 16.599,
+          "score": 0.804,
+          "speaker": "SPEAKER_01"
+        },
+        {
+          "word": "point",
+          "start": 16.679,
+          "end": 17.0,
+          "score": 0.813,
+          "speaker": "SPEAKER_01"
+        },
+        {
+          "word": "i",
+          "start": 17.341,
+          "end": 17.421,
+          "score": 0.942,
+          "speaker": "SPEAKER_01"
+        },
+        {
+          "word": "suggest",
+          "start": 17.461,
+          "end": 17.902,
+          "score": 0.904,
+          "speaker": "SPEAKER_01"
+        },
+        {
+          "word": "we",
+          "start": 17.943,
+          "end": 18.063,
+          "score": 0.962,
+          "speaker": "SPEAKER_01"
+        },
+        {
+          "word": "allocate",
+          "start": 18.163,
+          "end": 18.564,
+          "score": 0.847,
+          "speaker": "SPEAKER_01"
+        },
+        {
+          "word": "twenty",
+          "start": 18.624,
+          "end": 18.905,
+          "score": 0.99,
+          "speaker": "SPEAKER_01"
+        },
+        {
+          "word": "thousand",
+          "start": 18.945,
+          "end": 19.347,
+          "score": 0.817,
+          "speaker": "SPEAKER_01"
+        },
+        {
+          "word": "dollars",
+          "start": 19.387,
+          "end": 19.748,
+          "score": 0.853,
+          "speaker": "SPEAKER_01"
+        },
+        {
+          "word": "to",
+          "start": 19.808,
+          "end": 19.908,
+          "score": 0.994,
+          "speaker": "SPEAKER_01"
+        },
+        {
+          "word": "digital",
+          "start": 19.968,
+          "end": 20.51,
+          "score": 0.854,
+          "speaker": "SPEAKER_01"
+        },
+        {
+          "word": "ads",
+          "start": 20.53,
+          "end": 20.71,
+          "score": 0.934,
+          "speaker": "SPEAKER_01"
+        },
+        {
+          "word": "john",
+          "start": 21.092,
+          "end": 21.332,
+          "score": 0.932,
+          "speaker": "SPEAKER_01"
+        },
+        {
+          "word": "should",
+          "start": 21.372,
+          "end": 21.553,
+          "score": 0.808,
+          "speaker": "SPEAKER_01"
+        },
+        {
+          "word": "own",
+          "start": 21.613,
+          "end": 21.713,
+          "score": 0.997,
+          "speaker": "SPEAKER_01"
+        },
+        {
+          "word": "the",
+          "start": 21.753,
+          "end": 21.834,
+          "score": 0.821,
+          "speaker": "SPEAKER_01"
+        },
+        {
+          "word": "social",
+          "start": 21.894,
+          "end": 22.275,
+          "score": 0.889,
+          "speaker": "SPEAKER_01"
+        },
+        {
+          "word": "media",
+          "start": 22.335,
+          "end": 22.676,
+          "score": 0.781,
+          "speaker": "SPEAKER_01"
+        },
+        {
+          "word": "campaign",
+          "start": 22.716,
+          "end": 23.338,
+          "score": 0.825,
+          "speaker": "SPEAKER_01"
+        }
+      ],
+      "speaker": "SPEAKER_00"
+    }
+  ],
+  "word_segments": [
+    {
+      "word": "hello",
+      "start": 0.031,
+      "end": 0.412,
+      "score": 0.689,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "welcome",
+      "start": 0.452,
+      "end": 1.134,
+      "score": 0.712,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "to",
+      "start": 1.174,
+      "end": 1.255,
+      "score": 0.782,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "the",
+      "start": 1.315,
+      "end": 1.375,
+      "score": 0.999,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "meeting",
+      "start": 1.415,
+      "end": 1.716,
+      "score": 0.856,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "today",
+      "start": 2.057,
+      "end": 2.338,
+      "score": 0.76,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "we",
+      "start": 2.398,
+      "end": 2.478,
+      "score": 0.991,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "will",
+      "start": 2.518,
+      "end": 2.659,
+      "score": 0.964,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "discuss",
+      "start": 2.699,
+      "end": 3.08,
+      "score": 0.94,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "the",
+      "start": 3.14,
+      "end": 3.22,
+      "score": 0.988,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "quarterly",
+      "start": 3.3,
+      "end": 3.742,
+      "score": 0.913,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "revenue",
+      "start": 3.802,
+      "end": 4.123,
+      "score": 0.885,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "results",
+      "start": 4.183,
+      "end": 4.524,
+      "score": 0.886,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "and",
+      "start": 4.584,
+      "end": 4.644,
+      "score": 0.928,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "the",
+      "start": 4.684,
+      "end": 4.765,
+      "score": 0.831,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "action",
+      "start": 4.885,
+      "end": 5.146,
+      "score": 0.914,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "items",
+      "start": 5.246,
+      "end": 5.507,
+      "score": 0.964,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "for",
+      "start": 5.547,
+      "end": 5.667,
+      "score": 0.889,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "next",
+      "start": 5.727,
+      "end": 5.968,
+      "score": 0.848,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "quarter",
+      "start": 6.068,
+      "end": 6.389,
+      "score": 0.918,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "thank",
+      "start": 6.55,
+      "end": 6.77,
+      "score": 0.975,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "you",
+      "start": 6.811,
+      "end": 6.931,
+      "score": 0.912,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "alex",
+      "start": 7.071,
+      "end": 7.392,
+      "score": 0.836,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "i",
+      "start": 7.773,
+      "end": 7.854,
+      "score": 0.889,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "reviewed",
+      "start": 7.894,
+      "end": 8.215,
+      "score": 0.789,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "the",
+      "start": 8.255,
+      "end": 8.315,
+      "score": 0.997,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "numbers",
+      "start": 8.375,
+      "end": 8.696,
+      "score": 0.874,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "last",
+      "start": 8.756,
+      "end": 8.977,
+      "score": 0.949,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "night",
+      "start": 9.057,
+      "end": 9.298,
+      "score": 0.705,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "revenue",
+      "start": 9.639,
+      "end": 9.98,
+      "score": 0.84,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "is",
+      "start": 10.04,
+      "end": 10.1,
+      "score": 0.637,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "up",
+      "start": 10.2,
+      "end": 10.28,
+      "score": 0.864,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "15",
+      "start": 10.341,
+      "end": 10.722,
+      "score": 0.781,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "year",
+      "start": 11.263,
+      "end": 11.464,
+      "score": 0.865,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "over",
+      "start": 11.544,
+      "end": 11.725,
+      "score": 0.551,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "year",
+      "start": 11.805,
+      "end": 12.026,
+      "score": 0.815,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "we",
+      "start": 12.326,
+      "end": 12.447,
+      "score": 0.79,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "need",
+      "start": 12.487,
+      "end": 12.667,
+      "score": 0.761,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "to",
+      "start": 12.707,
+      "end": 12.788,
+      "score": 0.756,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "decide",
+      "start": 12.848,
+      "end": 13.229,
+      "score": 0.94,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "on",
+      "start": 13.309,
+      "end": 13.369,
+      "score": 0.989,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "the",
+      "start": 13.389,
+      "end": 13.47,
+      "score": 0.832,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "marketing",
+      "start": 13.53,
+      "end": 13.971,
+      "score": 0.905,
+      "speaker": "SPEAKER_00"
+    },
+    {
+      "word": "budget",
+      "start": 14.011,
+      "end": 14.332,
+      "score": 0.768,
+      "speaker": "SPEAKER_01"
+    },
+    {
+      "word": "and",
+      "start": 14.392,
+      "end": 14.473,
+      "score": 0.851,
+      "speaker": "SPEAKER_01"
+    },
+    {
+      "word": "assign",
+      "start": 14.533,
+      "end": 14.854,
+      "score": 0.778,
+      "speaker": "SPEAKER_01"
+    },
+    {
+      "word": "owners",
+      "start": 14.934,
+      "end": 15.195,
+      "score": 0.869,
+      "speaker": "SPEAKER_01"
+    },
+    {
+      "word": "before",
+      "start": 15.275,
+      "end": 15.676,
+      "score": 0.868,
+      "speaker": "SPEAKER_01"
+    },
+    {
+      "word": "end",
+      "start": 15.696,
+      "end": 15.796,
+      "score": 0.826,
+      "speaker": "SPEAKER_01"
+    },
+    {
+      "word": "of",
+      "start": 15.836,
+      "end": 15.897,
+      "score": 0.964,
+      "speaker": "SPEAKER_01"
+    },
+    {
+      "word": "week",
+      "start": 15.957,
+      "end": 16.198,
+      "score": 0.901,
+      "speaker": "SPEAKER_01"
+    },
+    {
+      "word": "great",
+      "start": 16.358,
+      "end": 16.599,
+      "score": 0.804,
+      "speaker": "SPEAKER_01"
+    },
+    {
+      "word": "point",
+      "start": 16.679,
+      "end": 17.0,
+      "score": 0.813,
+      "speaker": "SPEAKER_01"
+    },
+    {
+      "word": "i",
+      "start": 17.341,
+      "end": 17.421,
+      "score": 0.942,
+      "speaker": "SPEAKER_01"
+    },
+    {
+      "word": "suggest",
+      "start": 17.461,
+      "end": 17.902,
+      "score": 0.904,
+      "speaker": "SPEAKER_01"
+    },
+    {
+      "word": "we",
+      "start": 17.943,
+      "end": 18.063,
+      "score": 0.962,
+      "speaker": "SPEAKER_01"
+    },
+    {
+      "word": "allocate",
+      "start": 18.163,
+      "end": 18.564,
+      "score": 0.847,
+      "speaker": "SPEAKER_01"
+    },
+    {
+      "word": "twenty",
+      "start": 18.624,
+      "end": 18.905,
+      "score": 0.99,
+      "speaker": "SPEAKER_01"
+    },
+    {
+      "word": "thousand",
+      "start": 18.945,
+      "end": 19.347,
+      "score": 0.817,
+      "speaker": "SPEAKER_01"
+    },
+    {
+      "word": "dollars",
+      "start": 19.387,
+      "end": 19.748,
+      "score": 0.853,
+      "speaker": "SPEAKER_01"
+    },
+    {
+      "word": "to",
+      "start": 19.808,
+      "end": 19.908,
+      "score": 0.994,
+      "speaker": "SPEAKER_01"
+    },
+    {
+      "word": "digital",
+      "start": 19.968,
+      "end": 20.51,
+      "score": 0.854,
+      "speaker": "SPEAKER_01"
+    },
+    {
+      "word": "ads",
+      "start": 20.53,
+      "end": 20.71,
+      "score": 0.934,
+      "speaker": "SPEAKER_01"
+    },
+    {
+      "word": "john",
+      "start": 21.092,
+      "end": 21.332,
+      "score": 0.932,
+      "speaker": "SPEAKER_01"
+    },
+    {
+      "word": "should",
+      "start": 21.372,
+      "end": 21.553,
+      "score": 0.808,
+      "speaker": "SPEAKER_01"
+    },
+    {
+      "word": "own",
+      "start": 21.613,
+      "end": 21.713,
+      "score": 0.997,
+      "speaker": "SPEAKER_01"
+    },
+    {
+      "word": "the",
+      "start": 21.753,
+      "end": 21.834,
+      "score": 0.821,
+      "speaker": "SPEAKER_01"
+    },
+    {
+      "word": "social",
+      "start": 21.894,
+      "end": 22.275,
+      "score": 0.889,
+      "speaker": "SPEAKER_01"
+    },
+    {
+      "word": "media",
+      "start": 22.335,
+      "end": 22.676,
+      "score": 0.781,
+      "speaker": "SPEAKER_01"
+    },
+    {
+      "word": "campaign",
+      "start": 22.716,
+      "end": 23.338,
+      "score": 0.825,
+      "speaker": "SPEAKER_01"
+    }
+  ]
+}

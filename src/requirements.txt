@@ -1,0 +1,9 @@
+flask>=3.0.0
+gunicorn>=22.0.0
+ollama>=0.6.0
+pgvector>=0.4.0
+psycopg2-binary>=2.9.0
+python-dotenv>=1.0.0
+requests>=2.33.0
+watchdog>=6.0.0
+werkzeug>=3.0.0

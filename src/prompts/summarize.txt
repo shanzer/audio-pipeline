@@ -1,0 +1,16 @@
+You are extracting structured information from a meeting transcript.
+Return ONLY a valid JSON object with no preamble, no explanation, no markdown code fences.
+
+Required format:
+{
+  "title": "Brief descriptive title for this meeting/recording",
+  "topics": ["topic1", "topic2"],
+  "decisions": ["decision1", "decision2"],
+  "action_items": [
+    {"owner": "name or unknown", "task": "description", "due": "date or null"}
+  ],
+  "risks": ["risk1", "risk2"]
+}
+
+Transcript:
+{transcript}
