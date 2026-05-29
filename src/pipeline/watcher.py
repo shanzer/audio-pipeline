@@ -26,13 +26,25 @@ class InboxHandler(FileSystemEventHandler):
         except OSError:
             return True
 
+    def _is_stable(self, p: Path) -> bool:
+        """Return True when file has non-zero, stable size over 3 seconds.
+        Guards against iCloud partial downloads (file arrives as stub then
+        gets replaced with real content, triggering a second IN_CREATE)."""
+        try:
+            size1 = p.stat().st_size
+            if size1 == 0:
+                return False
+            time.sleep(3)
+            return p.stat().st_size == size1
+        except OSError:
+            return False
+
     def _handle(self, path: str) -> None:
         p = Path(path)
         if p.suffix.lower() not in AUDIO_EXTENSIONS:
             return
-        time.sleep(2)
-        if not p.exists() or self._is_evicted(p):
-            log.warning("Skipping evicted/missing file: %s", p.name)
+        if not self._is_stable(p):
+            log.warning("Skipping not-yet-ready file: %s", p.name)
             return
         source = detect_source(str(p))
         queued = enqueue(str(p), source=source)

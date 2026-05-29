@@ -22,22 +22,25 @@ def init_db() -> None:
 
 
 def enqueue(file_path: str, source: str = "unknown", metadata: dict = None) -> bool:
-    """Insert a new job. Returns True if inserted, False if already exists."""
+    """Insert a new job. Returns True if inserted or re-queued from failed, False otherwise."""
     filename = Path(file_path).name
     meta_json = json.dumps(metadata or {})
     with _conn() as conn:
         with conn:
             try:
                 conn.execute(
-                    """
-                    INSERT INTO jobs (file_path, filename, source, metadata)
-                    VALUES (?, ?, ?, ?)
-                    """,
+                    "INSERT INTO jobs (file_path, filename, source, metadata) VALUES (?, ?, ?, ?)",
                     (str(file_path), filename, source, meta_json),
                 )
                 return True
             except sqlite3.IntegrityError:
-                return False
+                # Re-queue if previously failed (e.g. iCloud stub replaced by full file)
+                cur = conn.execute(
+                    "UPDATE jobs SET status = 'pending', error = NULL, "
+                    "updated_at = datetime('now') WHERE file_path = ? AND status = 'failed'",
+                    (str(file_path),),
+                )
+                return cur.rowcount > 0
 
 
 def dequeue() -> sqlite3.Row | None:

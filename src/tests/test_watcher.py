@@ -29,6 +29,41 @@ class TestIsEvicted:
         assert self._handler(tmp_path)._is_evicted(tmp_path / "ghost.m4a") is True
 
 
+# ── _is_stable ───────────────────────────────────────────────────────────────
+
+class TestIsStable:
+    def _handler(self, watched):
+        from pipeline.watcher import InboxHandler
+        return InboxHandler(watched_dirs={watched})
+
+    def test_zero_byte_returns_false(self, tmp_path):
+        f = tmp_path / "audio.m4a"
+        f.write_bytes(b"")
+        with patch("time.sleep"):
+            assert self._handler(tmp_path)._is_stable(f) is False
+
+    def test_stable_nonzero_returns_true(self, tmp_path):
+        f = tmp_path / "audio.m4a"
+        f.write_bytes(b"real audio data")
+        with patch("time.sleep"):
+            assert self._handler(tmp_path)._is_stable(f) is True
+
+    def test_growing_file_returns_false(self, tmp_path):
+        from unittest.mock import MagicMock
+        f = tmp_path / "audio.m4a"
+        f.write_bytes(b"a" * 1000)
+        handler = self._handler(tmp_path)
+        with patch("pathlib.Path.stat", side_effect=[
+            MagicMock(st_size=1000),   # initial size check
+            MagicMock(st_size=2000),   # size after sleep — grew
+        ]), patch("time.sleep"):
+            assert handler._is_stable(f) is False
+
+    def test_missing_file_returns_false(self, tmp_path):
+        with patch("time.sleep"):
+            assert self._handler(tmp_path)._is_stable(tmp_path / "ghost.m4a") is False
+
+
 # ── _handle eviction guard ────────────────────────────────────────────────────
 
 class TestHandleEvictionGuard:
