@@ -30,13 +30,12 @@ def test_transcribe_happy_path(client):
 
     with (
         patch("main.whisperx.load_audio", return_value=MagicMock()),
-        patch("main.get_whisper_model") as mock_model,
+        patch("main.mlx_whisper.transcribe", return_value={"segments": fake_segments, "language": "en"}),
         patch("main.get_align_model") as mock_align,
         patch("main.get_diarize_model") as mock_diarize,
         patch("main.whisperx.align", return_value={"segments": fake_segments, "word_segments": []}),
         patch("main.whisperx.assign_word_speakers", return_value={"segments": fake_segments, "word_segments": []}),
     ):
-        mock_model.return_value.transcribe.return_value = {"segments": fake_segments, "language": "en"}
         mock_align.return_value = (MagicMock(), MagicMock())
         mock_diarize.return_value.return_value = MagicMock()
 
@@ -105,13 +104,12 @@ def test_transcribe_passes_speaker_hints_to_diarizer(client):
 
     with (
         patch("main.whisperx.load_audio", return_value=MagicMock()),
-        patch("main.get_whisper_model") as mock_model,
+        patch("main.mlx_whisper.transcribe", return_value={"segments": fake_segments, "language": "en"}),
         patch("main.get_align_model") as mock_align,
         patch("main.get_diarize_model") as mock_diarize,
         patch("main.whisperx.align", return_value={"segments": fake_segments, "word_segments": []}),
         patch("main.whisperx.assign_word_speakers", return_value={"segments": fake_segments, "word_segments": []}),
     ):
-        mock_model.return_value.transcribe.return_value = {"segments": fake_segments, "language": "en"}
         mock_align.return_value = (MagicMock(), MagicMock())
         diarize_instance = MagicMock()
         mock_diarize.return_value = diarize_instance

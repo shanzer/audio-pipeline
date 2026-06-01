@@ -1,4 +1,5 @@
 fastapi>=0.110.0
+mlx-whisper>=0.4.0
 huggingface_hub>=1.0.0
 pyannote.audio>=3.0.0
 python-dotenv>=1.0.0

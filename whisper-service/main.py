@@ -31,7 +31,7 @@ if not hasattr(torchaudio, "info"):
         return torchaudio.AudioMetaData(i.samplerate, i.frames, i.channels, 16, "PCM_S")
     torchaudio.info = _torchaudio_info
 
-# whisperx 3.3.4 ships checkpoints that require weights_only=False; patch globally until upstream fixes it
+# whisperx ships checkpoints that require weights_only=False
 _orig_torch_load = _torch.load
 def _patched_torch_load(f, *args, **kwargs):
     kwargs["weights_only"] = False
@@ -49,6 +49,7 @@ _hfhub.hf_hub_download = _patched_hf_hub_download
 from dotenv import load_dotenv
 load_dotenv()
 
+import mlx_whisper
 import whisperx
 from whisperx.diarize import DiarizationPipeline
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
@@ -57,13 +58,11 @@ from fastapi.responses import JSONResponse
 log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 
-WHISPER_MODEL = os.getenv("WHISPER_MODEL", "large-v3")
-WHISPER_DEVICE = os.getenv("WHISPER_DEVICE", "cpu")
-WHISPER_COMPUTE_TYPE = os.getenv("WHISPER_COMPUTE_TYPE", "int8")
-WHISPER_BATCH_SIZE = int(os.getenv("WHISPER_BATCH_SIZE", "8"))
-HF_TOKEN = os.getenv("HF_TOKEN", "")
+# mlx-community/whisper-large-v3-turbo: near large-v3 accuracy, ~8x faster on Apple Silicon
+WHISPER_MODEL  = os.getenv("WHISPER_MODEL", "mlx-community/whisper-large-v3-turbo")
+WHISPER_DEVICE = os.getenv("WHISPER_DEVICE", "mps")   # alignment + diarization models
+HF_TOKEN       = os.getenv("HF_TOKEN", "")
 
-_whisper_model = None
 _align_models: dict = {}
 _diarize_model = None
 _model_lock = threading.Lock()
@@ -71,24 +70,11 @@ _model_lock = threading.Lock()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Pre-warm models on startup so first request isn't slow
-    get_whisper_model()
-    get_diarize_model()
+    get_diarize_model()   # pre-warm; mlx model loads on first transcribe call
     yield
 
 
 app = FastAPI(lifespan=lifespan)
-
-
-def get_whisper_model():
-    global _whisper_model
-    with _model_lock:
-        if _whisper_model is None:
-            log.info("Loading WhisperX model %s on %s/%s", WHISPER_MODEL, WHISPER_DEVICE, WHISPER_COMPUTE_TYPE)
-            _whisper_model = whisperx.load_model(
-                WHISPER_MODEL, device=WHISPER_DEVICE, compute_type=WHISPER_COMPUTE_TYPE
-            )
-    return _whisper_model
 
 
 def get_align_model(language: str):
@@ -134,20 +120,27 @@ async def transcribe(
         tmp_path = tmp.name
 
     try:
+        # Load audio for alignment/diarization (numpy float32, 16 kHz)
         audio = whisperx.load_audio(tmp_path)
 
-        model = get_whisper_model()
-        result = model.transcribe(audio, batch_size=WHISPER_BATCH_SIZE)
+        # Transcribe with mlx-whisper (uses M-series GPU + Neural Engine)
+        result = mlx_whisper.transcribe(
+            tmp_path,
+            path_or_hf_repo=WHISPER_MODEL,
+            word_timestamps=True,
+        )
         language = result.get("language") or "en"
         if not result.get("language"):
-            log.warning("WhisperX returned no language; defaulting to 'en'")
+            log.warning("mlx_whisper returned no language; defaulting to 'en'")
 
+        # Word-level alignment
         align_model, align_meta = get_align_model(language)
         result = whisperx.align(
             result["segments"], align_model, align_meta, audio, WHISPER_DEVICE,
             return_char_alignments=False,
         )
 
+        # Speaker diarization
         diarize_model = get_diarize_model()
         diarize_df = diarize_model(audio, min_speakers=min_speakers, max_speakers=max_speakers)
         result = whisperx.assign_word_speakers(diarize_df, result)

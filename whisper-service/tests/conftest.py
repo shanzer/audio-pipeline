@@ -7,6 +7,7 @@ for _mod in [
     "torch", "torchaudio", "soundfile", "huggingface_hub",
     "whisperx", "whisperx.diarize",
     "pyannote", "pyannote.audio",
+    "mlx_whisper",
 ]:
     sys.modules.setdefault(_mod, MagicMock())
 
