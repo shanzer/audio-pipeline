@@ -101,6 +101,18 @@ def mark_failed(job_id: int, error: str) -> None:
             )
 
 
+def reset_stalled() -> int:
+    """Reset processing→pending for jobs interrupted by a container restart.
+    Returns count of jobs reset."""
+    with _conn() as conn:
+        with conn:
+            cur = conn.execute(
+                "UPDATE jobs SET status = 'pending', started_at = NULL, "
+                "updated_at = datetime('now') WHERE status = 'processing'"
+            )
+            return cur.rowcount
+
+
 def get_pending_count() -> int:
     with _conn() as conn:
         return conn.execute(

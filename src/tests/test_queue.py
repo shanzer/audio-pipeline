@@ -45,3 +45,34 @@ class TestEnqueue:
         q.enqueue("/inbox/audio.m4a")
         q.dequeue()  # moves to 'processing'
         assert q.enqueue("/inbox/audio.m4a") is False
+
+
+class TestResetStalled:
+    def test_processing_job_reset_to_pending(self, q):
+        q.enqueue("/inbox/audio.m4a")
+        q.dequeue()
+        count = q.reset_stalled()
+        assert count == 1
+        assert q.get_pending_count() == 1
+
+    def test_multiple_processing_jobs_all_reset(self, q):
+        q.enqueue("/inbox/a.m4a")
+        q.enqueue("/inbox/b.m4a")
+        q.dequeue()
+        q.dequeue()
+        assert q.reset_stalled() == 2
+        assert q.get_pending_count() == 2
+
+    def test_done_and_failed_jobs_unaffected(self, q):
+        q.enqueue("/inbox/a.m4a")
+        q.enqueue("/inbox/b.m4a")
+        job = q.dequeue()
+        q.mark_done(job["id"], "rec-id")
+        q.enqueue("/inbox/b.m4a")
+        job2 = q.dequeue()
+        q.mark_failed(job2["id"], "error")
+        assert q.reset_stalled() == 0
+
+    def test_no_stalled_jobs_returns_zero(self, q):
+        q.enqueue("/inbox/audio.m4a")
+        assert q.reset_stalled() == 0

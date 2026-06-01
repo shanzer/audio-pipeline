@@ -145,6 +145,117 @@ class TestOnMoved:
             mock_handle.assert_not_called()
 
 
+# ── on_closed (IN_CLOSE_WRITE) ────────────────────────────────────────────────
+
+class TestOnClosed:
+    def test_closed_file_is_handled(self, tmp_path):
+        inbox = tmp_path / "inbox"
+        inbox.mkdir()
+        f = inbox / "audio.m4a"
+        f.write_bytes(b"real audio data")
+
+        from pipeline.watcher import InboxHandler
+        from watchdog.events import FileClosedEvent
+        handler = InboxHandler(watched_dirs={inbox.resolve()})
+        with patch.object(handler, "_handle") as mock_handle:
+            handler.on_closed(FileClosedEvent(str(f)))
+            mock_handle.assert_called_once_with(str(f))
+
+    def test_closed_directory_is_ignored(self, tmp_path):
+        from pipeline.watcher import InboxHandler
+        from unittest.mock import MagicMock
+        handler = InboxHandler(watched_dirs={tmp_path.resolve()})
+        event = MagicMock()
+        event.is_directory = True
+        event.src_path = str(tmp_path)
+        with patch.object(handler, "_handle") as mock_handle:
+            handler.on_closed(event)
+            mock_handle.assert_not_called()
+
+
+# ── scan_inbox ────────────────────────────────────────────────────────────────
+
+class TestScanInbox:
+    def test_audio_files_are_enqueued(self, tmp_path):
+        (tmp_path / "a.m4a").write_bytes(b"audio")
+        (tmp_path / "b.wav").write_bytes(b"audio")
+
+        from pipeline.watcher import scan_inbox
+        with patch("pipeline.watcher.enqueue", return_value=True) as mock_eq, \
+             patch("pipeline.watcher.detect_source", return_value="ambient"):
+            count = scan_inbox([str(tmp_path)])
+        assert count == 2
+        assert mock_eq.call_count == 2
+
+    def test_non_audio_files_are_skipped(self, tmp_path):
+        (tmp_path / "notes.txt").write_bytes(b"text")
+        (tmp_path / "image.jpg").write_bytes(b"jpeg")
+
+        from pipeline.watcher import scan_inbox
+        with patch("pipeline.watcher.enqueue") as mock_eq:
+            count = scan_inbox([str(tmp_path)])
+        assert count == 0
+        mock_eq.assert_not_called()
+
+    def test_zero_byte_stubs_are_skipped(self, tmp_path):
+        (tmp_path / "stub.m4a").write_bytes(b"")
+
+        from pipeline.watcher import scan_inbox
+        with patch("pipeline.watcher.enqueue") as mock_eq:
+            count = scan_inbox([str(tmp_path)])
+        assert count == 0
+        mock_eq.assert_not_called()
+
+    def test_already_queued_files_not_counted(self, tmp_path):
+        (tmp_path / "audio.wav").write_bytes(b"audio")
+
+        from pipeline.watcher import scan_inbox
+        with patch("pipeline.watcher.enqueue", return_value=False) as mock_eq, \
+             patch("pipeline.watcher.detect_source", return_value="ambient"):
+            count = scan_inbox([str(tmp_path)])
+        assert count == 0
+        mock_eq.assert_called_once()
+
+    def test_missing_directory_is_skipped(self, tmp_path):
+        from pipeline.watcher import scan_inbox
+        with patch("pipeline.watcher.enqueue") as mock_eq:
+            count = scan_inbox([str(tmp_path / "nonexistent")])
+        assert count == 0
+        mock_eq.assert_not_called()
+
+    def test_scans_multiple_directories(self, tmp_path):
+        inbox1 = tmp_path / "local"
+        inbox2 = tmp_path / "icloud"
+        inbox1.mkdir()
+        inbox2.mkdir()
+        (inbox1 / "a.mp3").write_bytes(b"audio")
+        (inbox2 / "b.m4a").write_bytes(b"audio")
+
+        from pipeline.watcher import scan_inbox
+        with patch("pipeline.watcher.enqueue", return_value=True) as mock_eq, \
+             patch("pipeline.watcher.detect_source", return_value="ambient"):
+            count = scan_inbox([str(inbox1), str(inbox2)])
+        assert count == 2
+        assert mock_eq.call_count == 2
+
+
+# ── _rescan_loop ──────────────────────────────────────────────────────────────
+
+class TestRescanLoop:
+    def test_sleeps_then_calls_scan_inbox(self, tmp_path):
+        from pipeline.watcher import _rescan_loop
+
+        with patch("pipeline.watcher.scan_inbox", side_effect=StopIteration) as mock_scan, \
+             patch("time.sleep") as mock_sleep:
+            try:
+                _rescan_loop([str(tmp_path)], interval=30)
+            except StopIteration:
+                pass
+
+        mock_sleep.assert_called_once_with(30)
+        mock_scan.assert_called_once_with([str(tmp_path)])
+
+
 # ── start_watcher ─────────────────────────────────────────────────────────────
 
 class TestStartWatcher:

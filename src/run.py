@@ -29,7 +29,7 @@ from config.settings import (
     DEFAULT_MIN_SPEAKERS,
     DEFAULT_MAX_SPEAKERS,
 )
-from pipeline.queue import init_db, dequeue, mark_done, mark_failed, get_pending_count
+from pipeline.queue import init_db, dequeue, mark_done, mark_failed, get_pending_count, reset_stalled
 from pipeline.watcher import start_watcher
 
 
@@ -185,6 +185,9 @@ def main() -> None:
     log.info("Pipeline starting")
 
     init_db()
+    n = reset_stalled()
+    if n:
+        log.warning("Reset %d stalled processing job(s) to pending", n)
 
     observer = start_watcher(RECORDINGS_INBOXES)
 

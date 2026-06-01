@@ -1,4 +1,5 @@
 import logging
+import threading
 import time
 from pathlib import Path
 
@@ -57,6 +58,10 @@ class InboxHandler(FileSystemEventHandler):
         if not event.is_directory:
             self._handle(event.src_path)
 
+    def on_closed(self, event) -> None:
+        if not event.is_directory:
+            self._handle(event.src_path)
+
     def on_moved(self, event: FileMovedEvent) -> None:
         if not event.is_directory:
             dest = Path(event.dest_path)
@@ -64,7 +69,32 @@ class InboxHandler(FileSystemEventHandler):
                 self._handle(event.dest_path)
 
 
-def start_watcher(inbox_paths: list[str] | None = None) -> Observer:
+def scan_inbox(paths: list[str]) -> int:
+    """Enqueue any audio files already sitting in inbox dirs. Returns count added."""
+    count = 0
+    for path in paths:
+        p = Path(path)
+        if not p.is_dir():
+            continue
+        for f in p.iterdir():
+            if not f.is_file() or f.suffix.lower() not in AUDIO_EXTENSIONS:
+                continue
+            if f.stat().st_size == 0:
+                continue
+            source = detect_source(str(f))
+            if enqueue(str(f), source=source):
+                log.info("Scan enqueued: %s (source=%s)", f.name, source)
+                count += 1
+    return count
+
+
+def _rescan_loop(paths: list[str], interval: int) -> None:
+    while True:
+        time.sleep(interval)
+        scan_inbox(paths)
+
+
+def start_watcher(inbox_paths: list[str] | None = None, rescan_interval: int = 30) -> Observer:
     """Start watchdog observer on one or more inbox directories."""
     paths = inbox_paths or [RECORDINGS_INBOX]
     watched = {Path(p).resolve() for p in paths}
@@ -75,4 +105,9 @@ def start_watcher(inbox_paths: list[str] | None = None) -> Observer:
         observer.schedule(handler, str(p), recursive=False)
         log.info("Watcher started on %s", p)
     observer.start()
+    scan_inbox(paths)
+    threading.Thread(
+        target=_rescan_loop, args=(paths, rescan_interval),
+        daemon=True, name="inbox-rescan",
+    ).start()
     return observer

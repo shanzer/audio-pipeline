@@ -23,6 +23,8 @@ services:
     container_name: audio-pipeline-pipeline
     restart: unless-stopped
     network_mode: host          # shares host Tailscale interface → can reach yoyodyne
+    extra_hosts:
+      - "yoyodyne:100.73.162.53"  # Tailscale IP; update if device re-registers
     depends_on:
       postgres:
         condition: service_healthy
@@ -42,7 +44,7 @@ services:
       - type: bind
         source: "${ICLOUD_RECORDINGS_PATH}"
         target: /inbox/icloud
-        read_only: true
+        read_only: false
 
   webui:
     build:
